@@ -1,17 +1,17 @@
 <?php
 
 $traverseArrayImpl = function($apply, $map = null, $pure = null, $f = null, $array = null) use (&$traverseArrayImpl) {
-    if (func_num_args() < 5) {
-        $__args = func_get_args();
+    if (\func_num_args() < 5) {
+        $__args = \func_get_args();
         return function(...$more) use ($__args, &$traverseArrayImpl) {
-            return $traverseArrayImpl(...array_merge($__args, $more));
+            return $traverseArrayImpl(...\array_merge($__args, $more));
         };
     }
 
     $array1 = function ($a) { return [$a]; };
     $array2 = function ($a) { return function ($b) use ($a) { return [$a, $b]; }; };
     $array3 = function ($a) { return function ($b) use ($a) { return function ($c) use ($a, $b) { return [$a, $b, $c]; }; }; };
-    $concat2 = function ($xs) { return function ($ys) use ($xs) { return array_merge($xs, $ys); }; };
+    $concat2 = function ($xs) { return function ($ys) use ($xs) { return \array_merge($xs, $ys); }; };
     
     $go = function ($bot, $top) use (&$go, $array, $apply, $map, $pure, $f, $array1, $array2, $array3, $concat2) {
         switch ($top - $bot) {
@@ -44,7 +44,7 @@ $traverseArrayImpl = function($apply, $map = null, $pure = null, $f = null, $arr
                 return $apply($map2)($go2);
         }
     };
-    return $go(0, count($array));
+    return $go(0, \count($array));
 };
 $exports['traverseArrayImpl'] = $traverseArrayImpl;
 
